@@ -23,7 +23,7 @@ data class ResultsItem(
 	val correctAnswer: String? = null,
 
 	@field:SerializedName("incorrect_answers")
-	val incorrectAnswers: List<String?>? = null,
+	val incorrectAnswers: MutableList<String?>? = null,
 
 	@field:SerializedName("type")
 	val type: String? = null,

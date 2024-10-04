@@ -2,18 +2,15 @@ package com.example.quizapp.view.activity
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.quizapp.MainActivity
 import com.example.quizapp.R
 import com.example.quizapp.databinding.ActivityDifficultyBinding
-import com.example.quizapp.viewModel.QuizViewModel
 
 class DifficultyActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDifficultyBinding
-    private val quizViewModel by viewModels<QuizViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDifficultyBinding.inflate(layoutInflater)
@@ -28,24 +25,21 @@ class DifficultyActivity : AppCompatActivity() {
     private fun initClick(){
         val getCategory = intent.getStringExtra("category")
         binding.cardEasy.setOnClickListener {
-            quizViewModel.difficulty="easy"
-            quizViewModel.category=getCategory
-            quizViewModel.getQuizData()
             val easyIntent= Intent(this@DifficultyActivity,MainActivity::class.java)
+            easyIntent.putExtra("category",getCategory)
+            easyIntent.putExtra("difficulty","easy")
             startActivity(easyIntent)
         }
         binding.cardMedium.setOnClickListener {
-            quizViewModel.difficulty="medium"
-            quizViewModel.category=getCategory
-            quizViewModel.getQuizData()
             val mediumIntent= Intent(this@DifficultyActivity,MainActivity::class.java)
+            mediumIntent.putExtra("category",getCategory)
+            mediumIntent.putExtra("difficulty","medium")
             startActivity(mediumIntent)
         }
         binding.cardHard.setOnClickListener {
-            quizViewModel.difficulty="hard"
-            quizViewModel.category=getCategory
-            quizViewModel.getQuizData()
             val hardIntent= Intent(this@DifficultyActivity,MainActivity::class.java)
+            hardIntent.putExtra("category",getCategory)
+            hardIntent.putExtra("difficulty","hard")
             startActivity(hardIntent)
         }
 

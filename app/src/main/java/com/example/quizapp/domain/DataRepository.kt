@@ -7,5 +7,5 @@ class DataRepository {
         val repository=DataRepository()
     }
     private val apiHelper=ApiHelper()
-    suspend fun getQuiz(dataCategory:String,dataDifficulty:String)=apiHelper.callingApi(dataCategory,dataDifficulty)
+    suspend fun getQuiz(dataCategory:String,dataDifficulty:String) = apiHelper.callingApi(dataCategory,dataDifficulty)
 }

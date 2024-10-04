@@ -4,4 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="app">#004643</color>
     <color name="new_quiz">#FAD448</color>
+    <color name="light_green">#ABD1C6</color>
+    <color name="disable_btn">#5C8785</color>
 </resources>

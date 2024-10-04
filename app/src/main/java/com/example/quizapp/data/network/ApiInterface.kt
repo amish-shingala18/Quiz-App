@@ -7,9 +7,6 @@ import retrofit2.http.Query
 
 interface ApiInterface {
     @GET("api.php")
-    fun getQuizApi():Call<QuizModel>
-
-    @GET("api.php")
     fun getCategoryApi(
         @Query("type") type:String="multiple",
         @Query("amount") amount:String="10",
