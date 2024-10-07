@@ -2,20 +2,23 @@
 
     import android.annotation.SuppressLint
     import android.app.Dialog
+    import android.content.Intent
     import android.os.Bundle
     import android.os.CountDownTimer
     import android.util.Log
+    import android.widget.TextView
     import androidx.activity.viewModels
     import androidx.appcompat.app.AppCompatActivity
     import androidx.core.view.ViewCompat
     import androidx.core.view.WindowInsetsCompat
     import com.example.quizapp.databinding.ActivityMainBinding
+    import com.example.quizapp.view.activity.ResultActivity
     import com.example.quizapp.viewModel.QuizViewModel
 
     @Suppress("DEPRECATION")
     class MainActivity : AppCompatActivity() {
         private lateinit var dialog: Dialog
-        private var selectedAnswer = mutableListOf<String?>()
+
         private lateinit var binding: ActivityMainBinding
         private val quizViewModel by viewModels<QuizViewModel>()
         @SuppressLint("ResourceType", "SetTextI18n")
@@ -60,8 +63,15 @@
                 binding.txtOption3.text = quizViewModel.quizLiveData.value?.get(it)?.opList?.get(2)
                 binding.txtOption4.text = quizViewModel.quizLiveData.value?.get(it)?.opList?.get(3)
                 binding.btnNext.isClickable=true
-                if (quizViewModel.count == 10) {
+                if (quizViewModel.index.value!!+1 == 10) {
                     binding.btnNext.text = "SUBMIT"
+                    binding.btnNext.setOnClickListener {
+                        Log.d("TAG", "onCreate: ${quizViewModel.selectedAnswer}")
+                        val intent = Intent(this, ResultActivity::class.java)
+                        intent.putExtra("correctAnswer", quizViewModel.selectedAnswer.size)
+                        Log.d("TAG", "Submit List Size=================================  ${quizViewModel.selectedAnswer.size}")
+                        startActivity(intent)
+                    }
                 } else {
                     binding.btnNext.text = "Next"
                 }
@@ -73,47 +83,24 @@
             binding.btnNext.setOnClickListener {
                 val unselectedColor = resources.getColor(R.color.white)
                 val selectedColor = resources.getColor(R.color.light_green)
-                if (binding.cvOption1.cardBackgroundColor.defaultColor == unselectedColor &&
+                
+                if(binding.cvOption1.cardBackgroundColor.defaultColor == unselectedColor &&
                     binding.cvOption2.cardBackgroundColor.defaultColor == unselectedColor &&
                     binding.cvOption3.cardBackgroundColor.defaultColor == unselectedColor &&
                     binding.cvOption4.cardBackgroundColor.defaultColor == unselectedColor) {
-                    binding.btnNext.isClickable = false
+
                 } else {
-                    binding.btnNext.isClickable = true
-                    when {
-                        binding.cvOption1.cardBackgroundColor.defaultColor == selectedColor -> {
-                            val option1 = binding.txtOption1.text.toString()
-                            if(option1==quizViewModel.quizLiveData.value?.get(quizViewModel.index.value!!)?.cans){
-                                selectedAnswer.add(option1)
-                            }
-                        }
-                        binding.cvOption2.cardBackgroundColor.defaultColor == selectedColor -> {
-                            val option2 = binding.txtOption2.text.toString()
-                            if(option2==quizViewModel.quizLiveData.value?.get(quizViewModel.index.value!!)?.cans) {
-                                selectedAnswer.add(option2)
-                            }
-                        }
-                        binding.cvOption3.cardBackgroundColor.defaultColor == selectedColor -> {
-                            val option3 = binding.txtOption3.text.toString()
-                            if(option3==quizViewModel.quizLiveData.value?.get(quizViewModel.index.value!!)?.cans) {
-                                selectedAnswer.add(binding.txtOption3.text.toString())
-                            }
-                        }
-                        binding.cvOption4.cardBackgroundColor.defaultColor == selectedColor -> {
-                            val option4 = binding.txtOption4.text.toString()
-                            if(option4==quizViewModel.quizLiveData.value?.get(quizViewModel.index.value!!)?.cans) {
-                                selectedAnswer.add(binding.txtOption4.text.toString())
-                            }
-                        }
-                    }
-                    Log.d("TAG", "Selected Answers: $selectedAnswer")
+
                     quizViewModel.changeQuestion()
-                    quizViewModel.changeCount()
-                    Log.d("TAG", "Current count: ${quizViewModel.count}")
-                    binding.txtCount.text = "${quizViewModel.count}"
+                    binding.txtCount.text = "${quizViewModel.index.value!!+1}"
+                    quizViewModel.selectedOption =null
+                    binding.btnNext.setBackgroundColor(selectedColor);
                 }
             }
         }
+
+
+
         private fun option() {
             binding.cvOption1.setOnClickListener {
                 binding.imgOption1.setImageResource(R.drawable.selected_answer)
@@ -125,6 +112,8 @@
                 binding.cvOption3.setCardBackgroundColor(resources.getColor(R.color.white))
                 binding.cvOption4.setCardBackgroundColor(resources.getColor(R.color.white))
                 binding.btnNext.setBackgroundColor(resources.getColor(R.color.app))
+
+                quizViewModel.selectedOption = binding.txtOption1.text.toString()
             }
             binding.cvOption2.setOnClickListener {
                 binding.imgOption1.setImageResource(R.drawable.unselected_answer)
@@ -136,6 +125,7 @@
                 binding.cvOption3.setCardBackgroundColor(resources.getColor(R.color.white))
                 binding.cvOption4.setCardBackgroundColor(resources.getColor(R.color.white))
                 binding.btnNext.setBackgroundColor(resources.getColor(R.color.app))
+                quizViewModel.selectedOption = binding.txtOption2.text.toString()
             }
             binding.cvOption3.setOnClickListener {
                 binding.imgOption1.setImageResource(R.drawable.unselected_answer)
@@ -147,6 +137,7 @@
                 binding.cvOption3.setCardBackgroundColor(resources.getColor(R.color.light_green))
                 binding.cvOption4.setCardBackgroundColor(resources.getColor(R.color.white))
                 binding.btnNext.setBackgroundColor(resources.getColor(R.color.app))
+                quizViewModel.selectedOption = binding.txtOption3.text.toString()
             }
             binding.cvOption4.setOnClickListener {
                 binding.imgOption1.setImageResource(R.drawable.unselected_answer)
@@ -158,6 +149,7 @@
                 binding.cvOption3.setCardBackgroundColor(resources.getColor(R.color.white))
                 binding.cvOption4.setCardBackgroundColor(resources.getColor(R.color.light_green))
                 binding.btnNext.setBackgroundColor(resources.getColor(R.color.app))
+                quizViewModel.selectedOption = binding.txtOption4.text.toString()
             }
         }
         private fun startTimer() {
@@ -165,10 +157,9 @@
                 override fun onTick(millisUntilFinished: Long) {
                     binding.txtSeconds.text = (millisUntilFinished / 1000).toString()
                 }
-
                 @SuppressLint("SetTextI18n")
                 override fun onFinish() {
-                    binding.txtSeconds.text = "0"
+                    binding.txtSeconds.text="0"
                     quizViewModel.changeQuestion()
                 }
             }.start()

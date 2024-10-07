@@ -9,7 +9,7 @@
     tools:context=".view.activity.ResultActivity">
 
     <ImageView
-        android:id="@+id/imageView10"
+        android:id="@+id/imgResult"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_marginTop="64dp"
@@ -19,7 +19,7 @@
         app:srcCompat="@drawable/quiz_winner" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/txtWish"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -27,21 +27,21 @@
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/imageView10"
-        app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toBottomOf="@+id/imageView10" />
+        app:layout_constraintEnd_toEndOf="@+id/imgResult"
+        app:layout_constraintStart_toStartOf="@+id/imgResult"
+        app:layout_constraintTop_toBottomOf="@+id/imgResult" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/txtSlogan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="You Crushed It – Quiz Genius!"
         android:textColor="@color/white"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/textView5"
-        app:layout_constraintStart_toStartOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintEnd_toEndOf="@+id/txtWish"
+        app:layout_constraintStart_toStartOf="@+id/txtWish"
+        app:layout_constraintTop_toBottomOf="@+id/txtWish" />
 
     <TextView
         android:id="@+id/textView7"
@@ -51,9 +51,9 @@
         android:text="Your Quiz Overview"
         android:textColor="@color/white"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/textView6"
-        app:layout_constraintStart_toStartOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintEnd_toEndOf="@+id/txtSlogan"
+        app:layout_constraintStart_toStartOf="@+id/txtSlogan"
+        app:layout_constraintTop_toBottomOf="@+id/txtSlogan" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -72,7 +72,8 @@
             android:layout_height="56dp"
             android:layout_marginEnd="5dp"
             android:layout_weight="1"
-            app:cardBackgroundColor="@android:color/transparent"
+            app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/app"
             app:cardCornerRadius="16dp">
 
             <ImageView
@@ -84,11 +85,12 @@
                 app:srcCompat="@drawable/correct_result" />
 
             <TextView
-                android:id="@+id/textView9"
+                android:id="@+id/txtCorrect"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="10 Correct"
+                android:layout_marginStart="2dp"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
         </androidx.cardview.widget.CardView>
@@ -98,7 +100,8 @@
             android:layout_height="56dp"
             android:layout_marginStart="5dp"
             android:layout_weight="1"
-            app:cardBackgroundColor="@android:color/transparent"
+            app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/app"
             app:cardCornerRadius="16dp">
 
             <ImageView
@@ -110,11 +113,12 @@
                 app:srcCompat="@drawable/incorrect_result" />
 
             <TextView
-                android:id="@+id/textView10"
+                android:id="@+id/txtInCorrect"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="10 Incorrect"
+                android:layout_marginStart="7dp"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
         </androidx.cardview.widget.CardView>
