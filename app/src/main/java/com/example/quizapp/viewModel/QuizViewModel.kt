@@ -15,6 +15,7 @@ class QuizViewModel : ViewModel() {
     val index: LiveData<Int> = _index
     var category: String? = null
     var difficulty: String? = null
+    var count:Int?=1
     private var dummyList = mutableListOf<QModel>()
     fun getQuizData() {
         viewModelScope.launch {
@@ -31,6 +32,11 @@ class QuizViewModel : ViewModel() {
     fun changeQuestion() {
         if (_index.value!! < 9) {
             _index.value = _index.value!! + 1
+        }
+    }
+    fun changeCount(){
+        if(count!!<10){
+            count = count!! + 1
         }
     }
 }

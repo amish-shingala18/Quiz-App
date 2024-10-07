@@ -1,6 +1,5 @@
 package com.example.quizapp.data.helper
 
-import android.util.Log
 import com.example.quizapp.data.model.QuizModel
 import com.example.quizapp.data.network.ApiClient.Companion.getApi
 import com.example.quizapp.data.network.ApiInterface

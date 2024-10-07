@@ -42,6 +42,5 @@ class DifficultyActivity : AppCompatActivity() {
             hardIntent.putExtra("difficulty","hard")
             startActivity(hardIntent)
         }
-
     }
 }
