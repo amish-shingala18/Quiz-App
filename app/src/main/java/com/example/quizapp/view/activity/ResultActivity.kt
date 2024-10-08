@@ -1,7 +1,9 @@
 package com.example.quizapp.view.activity
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -20,6 +22,8 @@ class ResultActivity : AppCompatActivity() {
             insets
         }
         getResult()
+        initClick()
+        onBack
     }
     @SuppressLint("SetTextI18n")
     private fun getResult(){
@@ -29,7 +33,23 @@ class ResultActivity : AppCompatActivity() {
 
         if(correctAnswer<5){
             binding.imgResult.setImageResource(R.drawable.quiz_lose)
-            binding.txtWish.text="Try again later!"
+            binding.txtWish.text="Congratulations"
+            binding.txtSlogan.text="You Crushed It – Quiz Genius!"
+        }
+        else{
+            binding.imgResult.setImageResource(R.drawable.quiz_winner)
+            binding.txtWish.text="Keep going, Success is near"
+            binding.txtSlogan.text="Not your best try – keep practicing!"
         }
     }
+    private fun initClick(){
+        binding.txtNewQuiz.setOnClickListener {
+            startActivity(Intent(this@ResultActivity,CategoriesActivity::class.java))
+        }
+    }
+    private val onBack = onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            startActivity(Intent(this@ResultActivity,CategoriesActivity::class.java))
+        }
+    })
 }

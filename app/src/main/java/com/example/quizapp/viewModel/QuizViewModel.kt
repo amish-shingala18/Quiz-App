@@ -13,7 +13,6 @@ class QuizViewModel : ViewModel() {
     private var quizMutableLiveData = MutableLiveData<MutableList<QModel>>()
     var selectedAnswer = mutableListOf<String?>()
     var selectedOption:String ?  = null
-
     val quizLiveData: LiveData<MutableList<QModel>> = quizMutableLiveData
     private var _index = MutableLiveData(0)
     val index: LiveData<Int> = _index
@@ -40,9 +39,8 @@ class QuizViewModel : ViewModel() {
             _index.value = _index.value!! + 1
         }
     }
-
     private fun checkResult() {
-        if (selectedOption == quizLiveData.value?.get(index.value!!)?.cans) {
+        if(selectedOption == quizLiveData.value?.get(index.value!!)?.cans){
             selectedAnswer.add(selectedOption)
         }
     }

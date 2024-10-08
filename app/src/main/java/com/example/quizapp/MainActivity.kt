@@ -6,7 +6,6 @@
     import android.os.Bundle
     import android.os.CountDownTimer
     import android.util.Log
-    import android.widget.TextView
     import androidx.activity.viewModels
     import androidx.appcompat.app.AppCompatActivity
     import androidx.core.view.ViewCompat
@@ -17,8 +16,8 @@
 
     @Suppress("DEPRECATION")
     class MainActivity : AppCompatActivity() {
+        private var countDownTimer: CountDownTimer?=null
         private lateinit var dialog: Dialog
-
         private lateinit var binding: ActivityMainBinding
         private val quizViewModel by viewModels<QuizViewModel>()
         @SuppressLint("ResourceType", "SetTextI18n")
@@ -36,6 +35,7 @@
             quizViewModel.difficulty = getDifficulty
             quizViewModel.category = getCategory
             initCLick()
+            startTimer()
             quizViewModel.getQuizData()
             showLoader()
 
@@ -46,7 +46,7 @@
                 binding.txtOption3.text = it[0].opList?.get(2)
                 binding.txtOption4.text = it[0].opList?.get(3)
                 dialog.dismiss()
-
+                countDownTimer?.start()
             }
             quizViewModel.index.observe(this) {
                 binding.cvOption1.setCardBackgroundColor(resources.getColor(R.color.white))
@@ -83,23 +83,21 @@
             binding.btnNext.setOnClickListener {
                 val unselectedColor = resources.getColor(R.color.white)
                 val selectedColor = resources.getColor(R.color.light_green)
-                
                 if(binding.cvOption1.cardBackgroundColor.defaultColor == unselectedColor &&
                     binding.cvOption2.cardBackgroundColor.defaultColor == unselectedColor &&
                     binding.cvOption3.cardBackgroundColor.defaultColor == unselectedColor &&
                     binding.cvOption4.cardBackgroundColor.defaultColor == unselectedColor) {
 
                 } else {
-
                     quizViewModel.changeQuestion()
+                    countDownTimer?.cancel()
+                    countDownTimer?.start()
                     binding.txtCount.text = "${quizViewModel.index.value!!+1}"
                     quizViewModel.selectedOption =null
-                    binding.btnNext.setBackgroundColor(selectedColor);
+                    binding.btnNext.setBackgroundColor(selectedColor)
                 }
             }
         }
-
-
 
         private fun option() {
             binding.cvOption1.setOnClickListener {
@@ -153,16 +151,19 @@
             }
         }
         private fun startTimer() {
-            object : CountDownTimer(30000, 1000) {
+            countDownTimer = object : CountDownTimer(30000, 1000) {
                 override fun onTick(millisUntilFinished: Long) {
                     binding.txtSeconds.text = (millisUntilFinished / 1000).toString()
                 }
                 @SuppressLint("SetTextI18n")
                 override fun onFinish() {
-                    binding.txtSeconds.text="0"
+                    quizViewModel.selectedOption=null
                     quizViewModel.changeQuestion()
+                    countDownTimer?.cancel()
+                    countDownTimer?.start()
+                    binding.txtCount.text = "${quizViewModel.index.value!!+1}"
                 }
-            }.start()
+            }
         }
         private fun showLoader() {
             dialog = Dialog(this)

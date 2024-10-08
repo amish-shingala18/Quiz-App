@@ -35,7 +35,7 @@
         android:id="@+id/txtSlogan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="You Crushed It – Quiz Genius!"
         android:textColor="@color/white"
         android:textSize="16sp"
@@ -125,7 +125,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/txtNewQuiz"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
